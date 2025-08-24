@@ -1,9 +1,9 @@
 pipeline {
-	agent any
+	agent { dockerContainer {image 'maven:3.6.3'}}
 	stages {
   		stage('Build') {
    			steps {
-				sh 'mvn --version'
+				bat 'mvn --version'
     			echo "Build"
    			}
 		}
