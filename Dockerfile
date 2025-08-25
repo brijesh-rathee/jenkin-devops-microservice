@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 VOLUME /tmp
 EXPOSE 8000
 ADD target/*.jar app.jar
