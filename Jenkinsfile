@@ -40,16 +40,30 @@ pipeline {
     			bat 'mvn failsafe:integration-test failsafe:verify' //used for integration tests
    			}
 		}
-		// stage('Build Docker Image') {
-   		// 	steps {
-    	// 		bat 'mvn test'
-   		// 	}
-  		// }
-		// stage('Push Docker Image') {
-   		// 	steps {
-    	// 		bat 'mvn test'
-   		// 	}
-  		// }
+		stage('Package') {
+   			steps {
+				bat 'mvn package -DskipTests' //-DskipTests is used to skip the tests
+   			}
+  		}
+		stage('Build Docker Image') {
+   			steps {
+    			// docker build -t in28min/currency-exchange-devops:$env.BUILD_TAG
+				// or we can do that using the script block
+				script {
+					dockerImage = docker.build("9599024125/currency-exchange-devops:${env.BUILD_TAG}")
+				}
+   			}
+  		}
+		stage('Push Docker Image') {
+   			steps {
+    			script {
+					docker.withRegistry('', 'dockerhub') {
+						dockerImage.push();
+						dockerImage.push("latest");
+					}
+				}
+   			}
+  		}
 	} 
 	post {
 		always {
