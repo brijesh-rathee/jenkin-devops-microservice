@@ -10,6 +10,7 @@ pipeline {
 	stages {
   		stage('Build') {
    			steps {
+				bat 'mvn clean install'
 				bat 'mvn --version'
 				bat 'docker --version'
     			echo "Build"
