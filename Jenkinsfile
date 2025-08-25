@@ -40,6 +40,16 @@ pipeline {
     			bat 'mvn failsafe:integration-test failsafe:verify' //used for integration tests
    			}
 		}
+		// stage('Build Docker Image') {
+   		// 	steps {
+    	// 		bat 'mvn test'
+   		// 	}
+  		// }
+		// stage('Push Docker Image') {
+   		// 	steps {
+    	// 		bat 'mvn test'
+   		// 	}
+  		// }
 	} 
 	post {
 		always {
