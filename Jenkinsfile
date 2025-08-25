@@ -1,6 +1,11 @@
 pipeline {
 	agent any
 
+	tools {
+		maven 'myMaven'
+		docker 'myDocker'
+	}
+
 	environment {
 		dockerHome = tool 'myDocker'
 		mavenHome = tool 'myMaven'
