@@ -4,11 +4,11 @@ pipeline {
 	environment {
 		dockerHome = tool 'myDocker'
 		mavenHome = tool 'myMaven'
-		PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
+		PATH = "${dockerHome}/bin;${mavenHome}/bin;${env.PATH}"
 	}
 
 	stages {
-  		stage('Build') {
+  		stage('Checkout') {
    			steps {
 				bat 'mvn --version'
 				bat 'docker --version'
@@ -20,14 +20,19 @@ pipeline {
 				echo "BUILD_TAG - $env.BUILD_TAG"
    			}
 		}
+		stage('Compile') {
+   			steps {
+    			bat 'mvn clean compile'
+   			}
+  		}
   		stage('Test') {
    			steps {
-    			echo "Test"
+    			bat 'mvn test'
    			}
   		}
   		stage('Integration Test') {
    			steps {
-    			echo "Integration Test"
+    			bat 'mvn failsafe:integration-test failsafe:verify' //used for integration tests
    			}
 		}
 	} 
